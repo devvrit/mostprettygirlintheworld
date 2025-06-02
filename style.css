@@ -1,0 +1,51 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Light grey background */
+    color: #333; /* Dark grey text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.container {
+    background-color: #fff; /* White background for the content area */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #d63384; /* A pinkish color, feel free to change! */
+    margin-bottom: 25px;
+}
+
+.gallery {
+    display: flex; /* Arranges images in a row */
+    flex-wrap: wrap; /* Allows images to wrap to the next line if not enough space */
+    justify-content: center; /* Centers the images */
+    gap: 15px; /* Space between images */
+}
+
+.gallery img {
+    max-width: 300px; /* Adjust as needed - maximum width of each image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Slightly rounded corners for images */
+    border: 3px solid #ddd; /* Light grey border around images */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for images */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .gallery img {
+        max-width: 90%; /* Images take more width on smaller screens */
+    }
+
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+}
