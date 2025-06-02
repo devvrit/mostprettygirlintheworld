@@ -4,16 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Most Pretty Girl In The World</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0; /* Removes default browser margins */
+            overflow-y: hidden; /* Prevents vertical scrolling of the whole page */
+            font-family: 'Arial', sans-serif; /* Sets a default font */
+            background-color: #333; /* Fallback background if images are slow to load */
+        }
+
+        .fixed-header {
+            position: fixed; /* Keeps the header in place while scrolling */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background for text */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            z-index: 1000; /* Ensures the header stays on top of other content */
+            box-sizing: border-box; /* Includes padding in the element's total width and height */
+        }
+
+        .fixed-header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .background-gallery {
+            display: flex; /* Arranges images in a row */
+            width: calc(100vw * 30); /* Total width for 30 images, each taking full viewport width */
+            /* Adjust the '30' if you have a different number of photos */
+            height: 100vh; /* Full viewport height */
+            overflow-x: scroll; /* Enables horizontal scrolling for the gallery */
+            overflow-y: hidden; /* Disables vertical scrolling for the gallery */
+            position: absolute; /* Positioned relative to the body */
+            top: 0;
+            left: 0;
+            z-index: 1; /* Behind the fixed header */
+        }
+
+        .gallery-image {
+            width: 100vw; /* Each image takes the full viewport width */
+            height: 100vh; /* Each image takes the full viewport height */
+            background-size: cover; /* Covers the area, cropping if necessary */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat;
+            flex-shrink: 0; /* Prevents images from shrinking */
+        }
+
+        /* Mobile Friendliness */
+        @media (max-width: 768px) {
+            .fixed-header h1 {
+                font-size: 1.5em; /* Smaller font for smaller screens */
+            }
+            .fixed-header {
+                padding: 15px 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="fixed-header">
         <h1>Her name is Aditi Singh</h1>
-        <div class="gallery">
-            <img src="aditi_photos/aditi1.jpeg" alt="Aditi Singh - Photo 1">
-            <img src="aditi_photos/aditi2.jpeg" alt="Aditi Singh - Photo 2">
-            <img src="aditi_photos/aditi3.jpeg" alt="Aditi Singh - Photo 3">
-            </div>
     </div>
+
+    <div class="background-gallery" id="backgroundGallery">
+        </div>
+
+    <script>
+        const galleryContainer = document.getElementById('backgroundGallery');
+        const numberOfPhotos = 30; // Number of photos
+        const photoFolderPath = 'aditi_photos/';
+        const photoBaseName = 'aditi';
+        const photoExtension = '.jpeg';
+
+        for (let i = 1; i <= numberOfPhotos; i++) {
+            const imageDiv = document.createElement('div');
+            imageDiv.classList.add('gallery-image');
+            imageDiv.style.backgroundImage = `url('${photoFolderPath}${photoBaseName}${i}${photoExtension}')`;
+            galleryContainer.appendChild(imageDiv);
+        }
+
+        // Optional: Smooth scrolling for mouse wheel (can be a bit complex to make perfect cross-browser)
+        // This is a basic example. For robust horizontal scroll, libraries might be used.
+        document.body.addEventListener('wheel', (event) => {
+            if (event.deltaY !== 0) {
+                // Prevent default vertical scroll
+                // event.preventDefault(); // Be cautious with this, can block accessibility if not handled well
+                // Scroll the gallery horizontally instead
+                galleryContainer.scrollLeft += event.deltaY * 2; // Adjust multiplier for scroll speed
+            }
+        });
+    </script>
+
 </body>
 </html>
