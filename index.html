@@ -6,59 +6,78 @@
     <title>Most Pretty Girl In The World</title>
     <style>
         body {
-            margin: 0; /* Removes default browser margins */
-            overflow-y: hidden; /* Prevents vertical scrolling of the whole page */
-            font-family: 'Arial', sans-serif; /* Sets a default font */
-            background-color: #333; /* Fallback background if images are slow to load */
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0; /* Light background for the page */
+            padding-top: 80px; /* Space for the fixed header */
         }
 
         .fixed-header {
-            position: fixed; /* Keeps the header in place while scrolling */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background for text */
-            color: white;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            color: #333; /* Dark text */
             text-align: center;
             padding: 20px 0;
-            z-index: 1000; /* Ensures the header stays on top of other content */
-            box-sizing: border-box; /* Includes padding in the element's total width and height */
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+            box-sizing: border-box;
         }
 
         .fixed-header h1 {
             margin: 0;
-            font-size: 2em;
+            font-size: 1.8em; /* Adjusted font size */
+            color: #d63384; /* A pinkish color, feel free to change! */
         }
 
-        .background-gallery {
-            display: flex; /* Arranges images in a row */
-            width: calc(100vw * 30); /* Total width for 30 images, each taking full viewport width */
-            /* Adjust the '30' if you have a different number of photos */
-            height: 100vh; /* Full viewport height */
-            overflow-x: scroll; /* Enables horizontal scrolling for the gallery */
-            overflow-y: hidden; /* Disables vertical scrolling for the gallery */
-            position: absolute; /* Positioned relative to the body */
-            top: 0;
-            left: 0;
-            z-index: 1; /* Behind the fixed header */
+        .photo-gallery {
+            display: grid;
+            /* Adjust columns for different screen sizes if desired */
+            /* Default to 3 columns, then adjust for smaller screens */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 15px; /* Space between photos */
+            padding: 20px; /* Padding around the gallery */
+            max-width: 1200px; /* Optional: Max width for the gallery */
+            margin: 0 auto; /* Center the gallery if max-width is set */
         }
 
-        .gallery-image {
-            width: 100vw; /* Each image takes the full viewport width */
-            height: 100vh; /* Each image takes the full viewport height */
-            background-size: cover; /* Covers the area, cropping if necessary */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat;
-            flex-shrink: 0; /* Prevents images from shrinking */
+        .gallery-photo {
+            width: 100%; /* Make image take full width of its grid cell */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Rounded corners for photos */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Nicer shadow for photos */
+            object-fit: cover; /* Ensures the image covers the area, might crop */
+            aspect-ratio: 1 / 1; /* Makes images square by default, adjust if needed (e.g., 4/3, 16/9) or remove for natural aspect ratio */
         }
 
-        /* Mobile Friendliness */
+        /* Mobile Friendliness for header */
         @media (max-width: 768px) {
+            body {
+                padding-top: 70px; /* Adjust for smaller header */
+            }
             .fixed-header h1 {
-                font-size: 1.5em; /* Smaller font for smaller screens */
+                font-size: 1.5em;
             }
             .fixed-header {
                 padding: 15px 0;
+            }
+            .photo-gallery {
+                /* Change to 2 columns or 1 column on smaller screens if desired */
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 10px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .photo-gallery {
+                /* Single column on very small screens */
+                grid-template-columns: 1fr;
+            }
+             .fixed-header h1 {
+                font-size: 1.3em;
             }
         }
     </style>
@@ -69,33 +88,23 @@
         <h1>Her name is Aditi Singh</h1>
     </div>
 
-    <div class="background-gallery" id="backgroundGallery">
+    <div class="photo-gallery" id="photoGallery">
         </div>
 
     <script>
-        const galleryContainer = document.getElementById('backgroundGallery');
-        const numberOfPhotos = 21; // Number of photos
+        const galleryContainer = document.getElementById('photoGallery');
+        const numberOfPhotos = 21;
         const photoFolderPath = 'aditi_photos/';
-        const photoBaseName = 'aditi';
+        const photoBaseName = 'aditi'; 
         const photoExtension = '.jpeg';
 
         for (let i = 1; i <= numberOfPhotos; i++) {
-            const imageDiv = document.createElement('div');
-            imageDiv.classList.add('gallery-image');
-            imageDiv.style.backgroundImage = `url('${photoFolderPath}${photoBaseName}${i}${photoExtension}')`;
-            galleryContainer.appendChild(imageDiv);
+            const imgElement = document.createElement('img');
+            imgElement.classList.add('gallery-photo');
+            imgElement.src = `${photoFolderPath}${photoBaseName}${i}${photoExtension}`;
+            imgElement.alt = `Aditi Singh - Photo ${i}`; // Alt text for accessibility
+            galleryContainer.appendChild(imgElement);
         }
-
-        // Optional: Smooth scrolling for mouse wheel (can be a bit complex to make perfect cross-browser)
-        // This is a basic example. For robust horizontal scroll, libraries might be used.
-        document.body.addEventListener('wheel', (event) => {
-            if (event.deltaY !== 0) {
-                // Prevent default vertical scroll
-                // event.preventDefault(); // Be cautious with this, can block accessibility if not handled well
-                // Scroll the gallery horizontally instead
-                galleryContainer.scrollLeft += event.deltaY * 2; // Adjust multiplier for scroll speed
-            }
-        });
     </script>
 
 </body>
